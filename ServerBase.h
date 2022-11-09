@@ -29,7 +29,7 @@ private:
 	Int result;
 	ListenSocket* lSocket;
 	SOCKET newSocket;
-	HANDLE threadHandle;
+	std::vector<HANDLE*>* threadHandles;
 	std::vector<ClientSocket*>* cSockets;
 
 	//base function

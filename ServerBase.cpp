@@ -4,7 +4,7 @@ ServerBase::ServerBase(Int port)
 {
 	result = WSAStartup(MAKEWORD(2, 2), &wsa);
 	this->port = port;
-	threadHandle = 0;
+	threadHandles = new std::vector<HANDLE*>();
 	lSocket = new ListenSocket(this->port);
 	newSocket = 0;
 	cSockets = new std::vector<ClientSocket*>();
@@ -13,7 +13,16 @@ ServerBase::ServerBase(Int port)
 
 ServerBase::~ServerBase()
 {
-	if (cSockets != nullptr) {
+	if (threadHandles != nullptr) 
+	{
+		for (auto obj : *threadHandles)
+		{
+			CloseHandle(obj);
+		}
+		delete threadHandles;
+	}
+	if (cSockets != nullptr) 
+	{
 		for (auto* obj : *cSockets) 
 		{
 			delete obj;
@@ -67,10 +76,13 @@ void ServerBase::AcceptClients()
 {
 	sockaddr_in clientAddr;
 	int addrLen = sizeof(clientAddr);
+	HANDLE threadHandle;
  	while (true) 
 	{
 		newSocket = accept(lSocket->GetSocket(), (sockaddr*)&clientAddr, &addrLen);
+		threadHandles->emplace_back(&threadHandle);
 		threadHandle = (HANDLE)_beginthreadex(0, 0, ServerBase::StateSwitch, this, 0, 0);
+		threadHandles->erase(std::find(threadHandles->begin(), threadHandles->end(), &threadHandle));
 		CloseHandle(threadHandle);
 	}
 }
@@ -84,6 +96,9 @@ unsigned int __stdcall ServerBase::StateSwitch(void* obj)
 	{
 		switch (cSocket->GetMainState()) 
 		{
+			case MAIN:
+				cSocket->ModifyStateWithProtocol();
+				break;
 			case FILETRANS:
 				server->fileTransition->StateSwitch(cSocket);
 				break;

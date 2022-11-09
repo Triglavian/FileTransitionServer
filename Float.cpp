@@ -17,6 +17,7 @@ Float::Float(const Float& _float)
 
 Float::~Float()
 {
+
 }
 
 std::string Float::ToString()
@@ -24,19 +25,24 @@ std::string Float::ToString()
 	return std::to_string(_float);
 }
 
-float Float::ToFloat()
+float Float::ToFloat() const
 {
 	return _float;
 }
 
-Float Float::operator=(const Float& _float)
+float& Float::ToFloatRef()
 {
-	return this->_float == _float._float;
+	return _float;
 }
 
-Float Float::operator=(const float& _float)
+void Float::operator=(const Float& _float)
 {
-	return this->_float == _float;
+	this->_float = _float._float;
+}
+
+void Float::operator=(const float& _float)
+{
+	this->_float = _float;
 }
 
 Float Float::operator+(const Float& _float)

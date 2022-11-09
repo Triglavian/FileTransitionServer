@@ -11,30 +11,46 @@ FileTransition::~FileTransition()
 
 void FileTransition::StateSwitch(ClientSocket* cSocket)
 {
-	FileTransitionSession* session = dynamic_cast<FileTransitionSession*>(cSocket->GetSession());
-	switch (session->GetState()) 
+	FileTransitionSession* session = new FileTransitionSession();
+	cSocket->AddNewSession(session);
+	bool flag = true;
+	while (flag) 
 	{
-		case WAIT:
-			//recv state
-			break;
-		case RECVING:
+		switch (session->GetState())
+		{
+			case WAIT:
+				RecvFileName(cSocket, session);
+				break;
+			case RECVING:
 
-			break;
-		case RECVFIN:
-			session->SetState(WAIT);
-			break;
-		default:
-			//error handler
-			break;
+				break;
+			case RECVFIN:
+				session->SetState(WAIT);
+				break;
+			case QUIT:
+				cSocket->DeleteCurrentSession();
+				if (session != nullptr) delete session;
+				flag = false;
+				break;
+			default:
+				//error handler
+				break;
+		}
 	}
 }
 
-void FileTransition::ReceivFileData(ClientSocket* cSocket)
+void FileTransition::RecvFileName(ClientSocket* cSocket, FileTransitionSession* session)
 {
-
+	cSocket->RectStrPacket(session->GetProtocolRef(), session->GetFileNameRef());
 }
 
-void FileTransition::ReceiveFile(ClientSocket* cSocket)
+bool FileTransition::ValidateFileName(ClientSocket* cSocket, FileTransitionSession* session)
+{
+	if()
+	return true;
+}
+
+void FileTransition::ReceiveFile(ClientSocket* cSocket, FileTransitionSession* session)
 {
 	while (true) 
 	{

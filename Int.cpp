@@ -24,19 +24,24 @@ std::string Int::ToString()
 	return std::to_string(this->_int);
 }
 
-int Int::ToInt()
+int Int::ToInt() const
 {
 	return _int;
 }
 
- Int Int::operator=(const Int& _int)
+int& Int::ToIntRef()
 {
-	return this->_int == _int._int;
+	return _int;
 }
 
- Int Int::operator=(const int& _int)
+ void Int::operator=(const Int& _int)
 {
-	return this->_int == _int;
+	this->_int = _int._int;
+}	
+
+ void Int::operator=(const int& _int)
+{
+	this->_int = _int;
 }
 
  Int Int::operator+(const Int& _int)

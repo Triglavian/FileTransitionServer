@@ -2,17 +2,17 @@
 
 Char::Char()
 {
-	character = 0;
+	_char = 0;
 }
 
 Char::Char(char _char)
 {
-	character = _char;
+	this->_char = _char;
 }
 
 Char::Char(const Char& _char)
 {
-	character = _char.character;
+	this->_char = _char._char;
 }
 
 Char::~Char()
@@ -22,15 +22,35 @@ Char::~Char()
 
 std::string Char::ToString()
 {
-	return std::to_string(character);
+	return std::to_string(_char);
 }
 
-Char Char::operator=(const Char& _char)
+char Char::ToChar() const
 {
 	return _char;
 }
 
-Char Char::operator=(const char& _char)
+char& Char::ToCharRef()
 {
-	return Char(_char);
+	return _char;
+}
+
+void Char::operator=(const Char& _char)
+{
+	this->_char = _char._char;
+}
+
+void Char::operator=(const char& _char)
+{
+	this->_char = _char;
+}
+
+bool Char::operator==(const Char& _char)
+{
+	return this->_char == _char._char;
+}
+
+bool Char::operator==(const char& _char)
+{
+	return this->_char == _char;
 }

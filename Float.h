@@ -8,9 +8,10 @@ public:
 	Float(const Float& _float);
 	~Float();
 	std::string ToString();
-	float ToFloat();
-	Float operator=(const Float& _float);
-	Float operator=(const float& _float);
+	float ToFloat() const;
+	float& ToFloatRef();
+	void operator=(const Float& _float);
+	void operator=(const float& _float);
 	Float operator+(const Float& _float);
 	Float operator+(const float& _float);
 	Float operator-(const Float& _float);

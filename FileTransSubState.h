@@ -1,5 +1,4 @@
 #pragma once
-#include "SubState.h"
 
 enum FileTransSubState// : public SubState
 {

@@ -8,9 +8,10 @@ public:
 	Int(const Int& _int);
 	~Int();
 	std::string ToString();
-	int ToInt();
-	Int operator=(const Int& _int);
-	Int operator=(const int& _int);
+	int ToInt() const;
+	int& ToIntRef();
+	void operator=(const Int& _int);
+	void operator=(const int& _int);
 	Int operator+(const Int& _int);
 	Int operator+(const int& _int);
 	Int operator-(const Int& _int);

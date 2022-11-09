@@ -4,6 +4,7 @@
 #include <winsock2.h>
 #include "Char.h"
 #include "Int.h"
+#include <cstring>
 
 class PacketHandler
 {
@@ -12,28 +13,31 @@ public:
 	~PacketHandler();
 	
 	//send packet
-	int SendProtocolPacket(const SOCKET& socket, const Protocol& protocol);
-	int SendBoolPacket(SOCKET socket, Protocol protocol, bool data);
-	int SendIntPacket(SOCKET socket, Protocol protocol, int data);
-	int SendStrPacket(SOCKET socket, Protocol protocol, std::string data);
+	int SendProtocolPacket(const const SOCKET& _socket, const Protocol& protocol);
+	int SendBoolPacket(const SOCKET& _socket, const Protocol& protocol, const bool& data);
+	int SendCharPacket(const SOCKET& _socket, const Protocol& protocol, const char& data);
+	int SendIntPacket(const SOCKET& _socket, const Protocol& protocol, const int& data);
+	int SendStrPacket(const SOCKET& _socket, const Protocol& protocol, const std::string& data);
 
 	//receive packet
-	int RecvProtocolPacket(const SOCKET& socket, Protocol& protocol);
-	int RecvBoolPacket(SOCKET socket, Protocol& protocol, bool* data);
-	int RecvIntPacket(SOCKET socket, Protocol& protocol, int* data);
-	int RecvStrPacket(SOCKET socket, Protocol& protocol, std::string* data);
+	int RecvProtocolPacket(const const SOCKET& _socket, Protocol& protocol);
+	int RecvBoolPacket(const SOCKET& _socket, Protocol& protocol, bool& data);
+	int RecvCharPacket(const SOCKET& _socket, Protocol& protocol, char& data);
+	int RecvIntPacket(const SOCKET& _socket, Protocol& protocol, int& data);
+	int RecvStrPacket(const SOCKET& _socket, Protocol& protocol, std::string& data);
 private:
 	Packet packet;
 	void ClearPacket();
 	template <class Data>
-	int SendPacket(SOCKET socket, Protocol protocol, Data data);
+	int SendPacket(const SOCKET& _socket, const Protocol& protocol, const Data& data) ;
 	template <class Data>
-	int RecvPacket(SOCKET socket, Protocol& protocol, Data* data);
+	int RecvPacket(const SOCKET& _socket, Protocol& protocol, Data& data);
 };
 
 template<class Data>
-inline int PacketHandler::SendPacket(SOCKET socket, Protocol protocol, Data data)
+inline int PacketHandler::SendPacket(const SOCKET& _socket, const Protocol& protocol, const Data& data)  
 {
+	ClearPacket();
 	char* ptr = packet.buf + sizeof(int);
 	int packetSize = 0;
 	int dataSize = sizeof(data);
@@ -53,28 +57,29 @@ inline int PacketHandler::SendPacket(SOCKET socket, Protocol protocol, Data data
 	packet.packetSize = packetSize;
 	memcpy(ptr, &packetSize, sizeof(packetSize));
 
-	return send(socket, packet.buf, packet.packetSize + sizeof(int), 0);
+	return send(_socket, packet.buf, packet.packetSize + sizeof(int), 0);
 
 }
 
 template<class Data>
-inline int PacketHandler::RecvPacket(SOCKET socket, Protocol& protocol, Data* data)
+inline int PacketHandler::RecvPacket(const SOCKET& _socket, Protocol& protocol, Data& data)
 {
+	ClearPacket();
 	int retval = 0;
 	int packetSize = 0;
-	retval = recv(socket, (char*)&packetSize, sizeof(int), MSG_WAITALL);
+	retval = recv(_socket, (char*)&packetSize, sizeof(int), MSG_WAITALL);
 	if (retval == SOCKET_ERROR) {
 		std::cout << "recv() error" << std::endl;
 		exit(0);
 	}
-	retval = recv(socket, packet.buf, packetSize, MSG_WAITALL);
+	retval = recv(_socket, packet.buf, packetSize, MSG_WAITALL);
 	if (retval == SOCKET_ERROR) {
 		std::cout << "recv() error" << std::endl;
 		exit(0);
 	}
 	char* ptr = packet.buf;
 
-	memset(data, 0, sizeof(*data));
+	memset(&data, 0, sizeof(data));
 	memcpy(&protocol, ptr, sizeof(protocol));
 	ptr += sizeof(protocol);
 
@@ -82,6 +87,6 @@ inline int PacketHandler::RecvPacket(SOCKET socket, Protocol& protocol, Data* da
 	memcpy(&dataSize, ptr, sizeof(dataSize));
 	ptr += sizeof(dataSize);
 
-	memcpy(data, ptr, dataSize);
+	memcpy(&data, ptr, dataSize);
 	return retval;
 }

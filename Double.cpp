@@ -24,19 +24,24 @@ std::string Double::ToString()
 	return std::to_string(_double);
 }
 
-double Double::ToFloat()
+double Double::ToDouble() const
 {
 	return _double;
 }
 
-Double Double::operator=(const Double& _double)
+double& Double::ToDouble()
 {
-	return this->_double == _double._double;
+	return _double;
 }
 
-Double Double::operator=(const double& _double)
+void Double::operator=(const Double& _double)
 {
-	return this->_double == _double;
+	this->_double = _double._double;
+}
+
+void Double::operator=(const double& _double)
+{
+	this->_double = _double;
 }
 
 Double Double::operator+(const Double& _double)

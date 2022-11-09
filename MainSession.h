@@ -6,7 +6,6 @@ class MainSession : public ISession
 public:
 	MainSession();
 	~MainSession();
-	Protocol GetProtocol();
 private:
 	std::string Serialize();
 };

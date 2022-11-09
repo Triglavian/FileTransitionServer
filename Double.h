@@ -8,9 +8,10 @@ public:
 	Double(const Double& _double);
 	~Double();
 	std::string ToString();
-	double ToFloat();
-	Double operator=(const Double& _double);
-	Double operator=(const double& _double);
+	double ToDouble() const;
+	double& ToDouble();
+	void operator=(const Double& _double);
+	void operator=(const double& _double);
 	Double operator+(const Double& _double);
 	Double operator+(const double& _double);
 	Double operator-(const Double& _double);

@@ -18,8 +18,9 @@ private:
 	FileTransSubState state;
 
 	//service
-	void ReceivFileData(ClientSocket* cSocket);
-	void ReceiveFile(ClientSocket* cSocket);
+	void RecvFileName(ClientSocket* cSocket, FileTransitionSession* session);
+	bool ValidateFileName(ClientSocket* cSocket, FileTransitionSession* session);
+	void ReceiveFile(ClientSocket* cSocket, FileTransitionSession* session);
 	FileTransition(const FileTransition& trans);
 };
 

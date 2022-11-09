@@ -5,7 +5,8 @@
 class ISession 
 {
 public:
-	virtual Protocol GetProtocol() = 0;
+	Protocol GetProtocol();
+	Protocol& GetProtocolRef();
 	virtual std::string Serialize() = 0;
 protected:
 	Protocol protocol;

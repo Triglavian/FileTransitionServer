@@ -29,6 +29,11 @@ FileTransSubState FileTransitionSession::GetState()
     return state;
 }
 
+std::string& FileTransitionSession::GetFileNameRef()
+{
+    return fileName;
+}
+
 void FileTransitionSession::SetState(const FileTransSubState& _state)
 {
     state = _state;

@@ -4,13 +4,14 @@ ClientSocket::ClientSocket(const SOCKET& _socket)
 {
 	this->_socket = _socket;
 	packetHandler = new PacketHandler();
-	sessions = new std::stack<ISession*>();
-	sessions->push(new MainSession());
+	//sessions = new std::stack<ISession*>();
+	//sessions->push(new MainSession());
 	mainState = MAIN;
 }
 
 ClientSocket::~ClientSocket()
 {
+	/*
 	if (sessions != nullptr) 
 	{
 		for (; !sessions->empty(); sessions->pop())
@@ -19,6 +20,7 @@ ClientSocket::~ClientSocket()
 		}
 		delete sessions;
 	}
+	*/
 	if (packetHandler != nullptr) delete packetHandler;
 }
 
@@ -31,33 +33,37 @@ MainState ClientSocket::GetMainState()
 {
 	return mainState;
 }
-
+Protocol ClientSocket::GetProtocol()
+{
+	return protocol;
+}
+/*
 ISession* ClientSocket::GetSession()
 {
 	return sessions->top();
 }
-
+*/
 void ClientSocket::SetMainState(const MainState& _state)
 {
 	mainState = _state;
 }
-
+/*
 void ClientSocket::AddNewSession(ISession* session)
 {
 	sessions->push(session);
 }
-
 void ClientSocket::DeleteCurrentSession()
 {
 	if (sessions->size() < 1) return;
 	delete sessions->top();
 	sessions->pop();
 }
+*/
 
 void ClientSocket::ModifyStateWithProtocol()
 {
-	packetHandler->RecvProtocolPacket(_socket, sessions->top()->GetProtocolRef());
-	switch (sessions->top()->GetProtocol())
+	packetHandler->RecvProtocolPacket(_socket, protocol);
+	switch (protocol)
 	{
 		case P_TRANS:
 			mainState = FILETRANS;
@@ -96,32 +102,27 @@ Int ClientSocket::SendStrPacket(const Protocol& protocol, const std::string& str
 
 Int ClientSocket::RecvProtocolPacket()
 {
-	return packetHandler->RecvProtocolPacket(_socket, sessions->top()->GetProtocolRef());
-}
-
-Int ClientSocket::RecvProtocolPacket(Protocol& protocol)
-{
 	return packetHandler->RecvProtocolPacket(_socket, protocol);
 }
 
-Int ClientSocket::RecvBoolPacket(Protocol& protocol, bool& data)
+Int ClientSocket::RecvBoolPacket(bool& data)
 {
-	return packetHandler->RecvBoolPacket(_socket, sessions->top()->GetProtocolRef(), data);
+	return packetHandler->RecvBoolPacket(_socket, protocol, data);
 }
 
-Int ClientSocket::RecvCharPacket(Protocol& protocol, Char& data)
+Int ClientSocket::RecvCharPacket(Char& data)
 {
-	return packetHandler->RecvCharPacket(_socket, sessions->top()->GetProtocolRef(), data.ToCharRef());
+	return packetHandler->RecvCharPacket(_socket, protocol, data.ToCharRef());
 }
 
-Int ClientSocket::RecvIntPacket(Protocol& protocol, Int& data)
+Int ClientSocket::RecvIntPacket(Int& data)
 {
-	return packetHandler->RecvIntPacket(_socket, sessions->top()->GetProtocolRef(), data.ToIntRef());
+	return packetHandler->RecvIntPacket(_socket, protocol, data.ToIntRef());
 }
 
-Int ClientSocket::RectStrPacket(Protocol& protocol, std::string& data)
+Int ClientSocket::RectStrPacket(std::string& data)
 {
-	return packetHandler->RecvStrPacket(_socket, sessions->top()->GetProtocolRef(), data);
+	return packetHandler->RecvStrPacket(_socket, protocol, data);
 }
 
 ClientSocket::ClientSocket(const ClientSocket& clientSocket)

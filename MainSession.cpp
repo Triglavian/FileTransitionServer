@@ -1,5 +1,5 @@
 #include "MainSession.h"
-
+/*
 MainSession::MainSession()
 {
 }
@@ -13,3 +13,4 @@ std::string MainSession::Serialize()
 {
     return std::string();
 }
+*/

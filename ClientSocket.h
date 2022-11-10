@@ -14,14 +14,15 @@ public:
 	//getter
 	SOCKET GetSocket();
 	MainState GetMainState();
-	ISession* GetSession();	//can't dynamic cast if const return
+	Protocol GetProtocol();
+	//ISession* GetSession();	//can't dynamic cast if const return
 	
 	//setter
 	void SetMainState(const MainState& _state);
 	//service
 	void ModifyStateWithProtocol();
-	void AddNewSession(ISession* session);
-	void DeleteCurrentSession();
+	//void AddNewSession(ISession* session);
+	//void DeleteCurrentSession();
 
 	//packet sender
 	Int SendProtocolPacket(const Protocol& protocol) const;
@@ -32,11 +33,10 @@ public:
 
 	//packet receiver
 	Int RecvProtocolPacket();
-	Int RecvProtocolPacket(Protocol& protocol);
-	Int RecvBoolPacket(Protocol& protocol, bool& data);
-	Int RecvCharPacket(Protocol& protocol, Char& data);
-	Int RecvIntPacket(Protocol& protocol, Int& data);
-	Int RectStrPacket(Protocol& protocol, std::string& data);
+	Int RecvBoolPacket(bool& data);
+	Int RecvCharPacket(Char& data);
+	Int RecvIntPacket(Int& data);
+	Int RectStrPacket(std::string& data);
 
 private:
 	//client socket base data
@@ -45,7 +45,8 @@ private:
 	PacketHandler* packetHandler;
 	Int result;
 	MainState mainState;
-	std::stack<ISession*>* sessions;
+	Protocol protocol;
+	//std::stack<ISession*>* sessions;
 
 	//
 

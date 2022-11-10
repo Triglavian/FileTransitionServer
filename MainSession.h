@@ -1,6 +1,6 @@
 #pragma once
 #include "ISession.h"
-
+/*
 class MainSession : public ISession
 {
 public:
@@ -9,4 +9,4 @@ public:
 private:
 	std::string Serialize();
 };
-
+*/

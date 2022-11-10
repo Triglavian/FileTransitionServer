@@ -33,7 +33,12 @@ int& Int::ToIntRef()
 {
 	return _int;
 }
-
+/*
+int& Int::operator&()
+{
+	return _int;
+}
+*/
  void Int::operator=(const Int& _int)
 {
 	this->_int = _int._int;

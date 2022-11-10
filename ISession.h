@@ -1,4 +1,5 @@
 #pragma once
+/*
 #include <iostream>
 #include "Protocol.h"
 
@@ -11,3 +12,4 @@ public:
 protected:
 	Protocol protocol;
 };
+*/

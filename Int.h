@@ -10,6 +10,7 @@ public:
 	std::string ToString();
 	int ToInt() const;
 	int& ToIntRef();
+	//int& operator&();
 	void operator=(const Int& _int);
 	void operator=(const int& _int);
 	Int operator+(const Int& _int);

@@ -1,6 +1,7 @@
 #pragma once
 #include "FileTransSubState.h"
 #include "ClientSocket.h"
+#include "FileTransitionData.h"
 
 class FileTransition
 {
@@ -18,9 +19,9 @@ private:
 	FileTransSubState state;
 
 	//service
-	void RecvFileName(ClientSocket* cSocket, FileTransitionSession* session);
-	bool ValidateFileName(ClientSocket* cSocket, FileTransitionSession* session);
-	void ReceiveFile(ClientSocket* cSocket, FileTransitionSession* session);
+	void RecvFileName(ClientSocket* cSocket, FileTransitionData* data);
+	bool ValidateFileName(ClientSocket* cSocket, const FileTransitionData& data);
+	void ReceiveFile(ClientSocket* cSocket, FileTransitionData* data);
 	FileTransition(const FileTransition& trans);
 };
 

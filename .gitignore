@@ -32,9 +32,7 @@
 *.app
 
 #VS
-*.vcxproj
-*.filters
-*.user
 
+.vs/
 .git/
 x64/

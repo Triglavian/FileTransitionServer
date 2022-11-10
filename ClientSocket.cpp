@@ -73,7 +73,12 @@ void ClientSocket::ModifyStateWithProtocol()
 			mainState = MAIN;
 			break;
 	}
-}	
+}
+bool ClientSocket::ValidateProtocol(const Protocol& protocol)
+{
+	return this->protocol == protocol;
+}
+
 
 Int ClientSocket::SendProtocolPacket(const Protocol& protocol) const
 {
@@ -100,6 +105,11 @@ Int ClientSocket::SendStrPacket(const Protocol& protocol, const std::string& str
 	return packetHandler->SendStrPacket(_socket, protocol, str);
 }
 
+Int ClientSocket::SendCStrPacket(const Protocol& protocol, const Char data[], const Int& size)
+{
+	return packetHandler->SendCStrPacket(_socket, protocol, data, size);
+}
+
 Int ClientSocket::RecvProtocolPacket()
 {
 	return packetHandler->RecvProtocolPacket(_socket, protocol);
@@ -123,6 +133,11 @@ Int ClientSocket::RecvIntPacket(Int& data)
 Int ClientSocket::RectStrPacket(std::string& data)
 {
 	return packetHandler->RecvStrPacket(_socket, protocol, data);
+}
+
+Int ClientSocket::RecvCStrPacket(char* data, int size)
+{
+	return packetHandler->RecvCStrPacket(_socket, protocol, data, size);
 }
 
 ClientSocket::ClientSocket(const ClientSocket& clientSocket)

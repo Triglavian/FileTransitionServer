@@ -65,6 +65,29 @@ int PacketHandler::SendStrPacket(const SOCKET& _socket, const Protocol& protocol
 	return send(_socket, packet.buf, packet.packetSize + sizeof(int), 0);
 }
 
+int PacketHandler::SendCStrPacket(const SOCKET& socket, const Protocol& protocol, const char data[], const int& size)
+{
+	char* ptr = packet.buf + sizeof(int);
+	int packetSize = 0;
+
+	memcpy(ptr, &protocol, sizeof(protocol));
+	ptr += sizeof(protocol);
+	packetSize += sizeof(protocol);
+
+	memcpy(ptr, &size, sizeof(size));
+	ptr += sizeof(size);
+	packetSize += sizeof(size);
+
+	memcpy(ptr, data, size);
+	packetSize += size;
+
+	ptr = packet.buf;
+	packet.packetSize = packetSize;
+	memcpy(ptr, &packetSize, sizeof(packetSize));
+
+	return send(socket, packet.buf, packet.packetSize + sizeof(int), 0);
+}
+
 int PacketHandler::RecvProtocolPacket(const SOCKET& _socket, Protocol& protocol)
 {
 	ClearPacket();
@@ -127,6 +150,34 @@ int PacketHandler::RecvStrPacket(const SOCKET& _socket, Protocol& protocol, std:
 	//memcpy(data, ptr, dataSize);
 	data.copy(ptr, dataSize);
 	ptr += dataSize;
+	return retval;
+}
+
+int PacketHandler::RecvCStrPacket(const SOCKET& socket, Protocol& protocol, char* data, int size)
+{
+	int retval = 0;
+	int packetSize = 0;
+	retval = recv(socket, (char*)&packetSize, sizeof(int), MSG_WAITALL);
+	if (retval == SOCKET_ERROR) {
+		std::cout << "recv() error" << std::endl;
+		exit(0);
+	}
+	retval = recv(socket, packet.buf, packetSize, MSG_WAITALL);
+	if (retval == SOCKET_ERROR) {
+		std::cout << "recv() error" << std::endl;
+		exit(0);
+	}
+	char* ptr = packet.buf;
+
+	memset(data, 0, sizeof(*data));
+	memcpy(&protocol, ptr, sizeof(protocol));
+	ptr += sizeof(protocol);
+
+	int dataSize = 0;
+	memcpy(&dataSize, ptr, sizeof(dataSize));
+	ptr += sizeof(dataSize);
+
+	memcpy(data, ptr, dataSize);
 	return retval;
 }
 

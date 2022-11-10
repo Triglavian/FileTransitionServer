@@ -18,6 +18,7 @@ public:
 	int SendCharPacket(const SOCKET& _socket, const Protocol& protocol, const char& data);
 	int SendIntPacket(const SOCKET& _socket, const Protocol& protocol, const int& data);
 	int SendStrPacket(const SOCKET& _socket, const Protocol& protocol, const std::string& data);
+	int SendCStrPacket(const SOCKET& socket, const Protocol& protocol, const Char data[], const Int& size);
 
 	//receive packet
 	int RecvProtocolPacket(const const SOCKET& _socket, Protocol& protocol);
@@ -25,6 +26,8 @@ public:
 	int RecvCharPacket(const SOCKET& _socket, Protocol& protocol, char& data);
 	int RecvIntPacket(const SOCKET& _socket, Protocol& protocol, int& data);
 	int RecvStrPacket(const SOCKET& _socket, Protocol& protocol, std::string& data);
+	int RecvCStrPacket(const SOCKET& socket, Protocol& protocol, Char* data, Int size);
+
 private:
 	Packet packet;
 	void ClearPacket();

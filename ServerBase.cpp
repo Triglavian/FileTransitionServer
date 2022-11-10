@@ -9,6 +9,8 @@ ServerBase::ServerBase(Int port)
 	newSocket = 0;
 	cSockets = new std::vector<ClientSocket*>();
 	fileTransition = new FileTransition();
+	InitializeCriticalSection(&handleSection);
+	InitializeCriticalSection(&cSocketSection);
 }
 
 ServerBase::~ServerBase()
@@ -30,6 +32,8 @@ ServerBase::~ServerBase()
 		delete cSockets;
 	}
 	if (lSocket != nullptr) delete lSocket;
+	DeleteCriticalSection(&handleSection);
+	DeleteCriticalSection(&cSocketSection);
 }
 
 void ServerBase::Run()
@@ -80,9 +84,11 @@ void ServerBase::AcceptClients()
  	while (true) 
 	{
 		newSocket = accept(lSocket->GetSocket(), (sockaddr*)&clientAddr, &addrLen);
+		EnterCriticalSection(&handleSection);
 		threadHandles->emplace_back(&threadHandle);
 		threadHandle = (HANDLE)_beginthreadex(0, 0, ServerBase::StateSwitch, this, 0, 0);
 		threadHandles->erase(std::find(threadHandles->begin(), threadHandles->end(), &threadHandle));
+		LeaveCriticalSection(&handleSection);
 		CloseHandle(threadHandle);
 	}
 }
@@ -90,8 +96,10 @@ void ServerBase::AcceptClients()
 unsigned int __stdcall ServerBase::StateSwitch(void* obj)
 {
 	ServerBase* server = static_cast<ServerBase*>(obj);
+	EnterCriticalSection(&server->cSocketSection);
 	ClientSocket* cSocket = new ClientSocket(server->newSocket);
 	server->cSockets->emplace_back(cSocket);
+	LeaveCriticalSection(&server->cSocketSection);
 	while (true)
 	{
 		switch (cSocket->GetMainState()) 
@@ -107,7 +115,9 @@ unsigned int __stdcall ServerBase::StateSwitch(void* obj)
 				break;
 		}
 	}
+	EnterCriticalSection(&server->cSocketSection);
 	server->cSockets->erase(std::find(server->cSockets->begin(), server->cSockets->end(), cSocket));
+	LeaveCriticalSection(&server->cSocketSection);
 	delete cSocket;
 	return 0;
 }

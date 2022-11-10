@@ -5,6 +5,8 @@
 #include "FileTransSubState.h"
 #include <Windows.h>
 
+#include "Int.h"
+
 class FileTransitionData
 {
 public:
@@ -15,20 +17,21 @@ public:
 	//getter
 	FileTransSubState GetState();
 	std::string& GetFileNameRef();
+	std::string GetFileDirectory();
+	Int& GetFileSizeRef();
+	Int GetFileSize();
+
 	//setter
 	void SetState(const FileTransSubState& _state);
+	void SetFileDirectory();
 	void SetFileDirectory(const std::string& directory);
-
-	//critical section
-	void EnterFileCriticalSection();
-	void LeaveFileCriticalSection();
-private:
-	CRITICAL_SECTION fileSection;
+	void ClearFileDirectory();
 	FILE* file;
-	
+private:
 	const std::string defaultDirectory = "\\Received\\";
 	std::string fileDirectory;
 	std::string fileName;
-
+	Int size;
+	Char buf[BUFSIZE];
 	FileTransSubState state;
 };

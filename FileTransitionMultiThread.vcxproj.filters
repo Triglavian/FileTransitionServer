@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\DataType">
+      <UniqueIdentifier>{32773d30-d3e8-47ac-9230-3273c015bf17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DataType\Interface">
+      <UniqueIdentifier>{d750a97d-6663-4c76-9d1c-847496aaecee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Packet">
+      <UniqueIdentifier>{81c55f66-9b3f-4e36-979a-f55259fd6ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ServerModule">
+      <UniqueIdentifier>{448e90bc-f2b8-4954-b7c8-3a5155bc0f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ServerModule\ClientSocket">
+      <UniqueIdentifier>{438121d0-b3d5-474a-93f3-ca56ee8ad17f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ServerModule\Base">
+      <UniqueIdentifier>{f7a29aca-120d-4c32-9692-f9a64719835b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\States">
+      <UniqueIdentifier>{89d24fb3-537e-401c-9a03-ce5f514c0d6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\States\Session">
+      <UniqueIdentifier>{3215f08d-4b6f-4111-9131-294d4e3053df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\States\Session\Interface">
+      <UniqueIdentifier>{acee239c-fcb7-4610-8487-9383120e53a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ServerModule\FileTransition">
+      <UniqueIdentifier>{38228a3a-4d3e-4b93-9eef-56e5fab952ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Packet\PacketType">
+      <UniqueIdentifier>{0b2e1321-7d79-48ef-8315-6da04dae4836}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Char.h">
+      <Filter>소스 파일\DataType</Filter>
+    </ClInclude>
+    <ClInclude Include="WChar.h">
+      <Filter>소스 파일\DataType</Filter>
+    </ClInclude>
+    <ClInclude Include="Int.h">
+      <Filter>소스 파일\DataType</Filter>
+    </ClInclude>
+    <ClInclude Include="Float.h">
+      <Filter>소스 파일\DataType</Filter>
+    </ClInclude>
+    <ClInclude Include="Double.h">
+      <Filter>소스 파일\DataType</Filter>
+    </ClInclude>
+    <ClInclude Include="IDataType.h">
+      <Filter>소스 파일\DataType\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHandler.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>소스 파일\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ISession.h">
+      <Filter>소스 파일\States\Session\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="MainSession.h">
+      <Filter>소스 파일\States\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="Sessions.h">
+      <Filter>소스 파일\States\Session\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSocket.h">
+      <Filter>소스 파일\ServerModule\ClientSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerBase.h">
+      <Filter>소스 파일\ServerModule\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="SubState.h">
+      <Filter>소스 파일\States</Filter>
+    </ClInclude>
+    <ClInclude Include="StateS.h">
+      <Filter>소스 파일\States\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransSubState.h">
+      <Filter>소스 파일\States</Filter>
+    </ClInclude>
+    <ClInclude Include="MainState.h">
+      <Filter>소스 파일\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransition.h">
+      <Filter>소스 파일\ServerModule\FileTransition</Filter>
+    </ClInclude>
+    <ClInclude Include="ListenSocket.h">
+      <Filter>소스 파일\ServerModule\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransitionData.h">
+      <Filter>소스 파일\ServerModule\FileTransition</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Char.cpp">
+      <Filter>소스 파일\DataType</Filter>
+    </ClCompile>
+    <ClCompile Include="Double.cpp">
+      <Filter>소스 파일\DataType</Filter>
+    </ClCompile>
+    <ClCompile Include="Float.cpp">
+      <Filter>소스 파일\DataType</Filter>
+    </ClCompile>
+    <ClCompile Include="WChar.cpp">
+      <Filter>소스 파일\DataType</Filter>
+    </ClCompile>
+    <ClCompile Include="Int.cpp">
+      <Filter>소스 파일\DataType</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketHandler.cpp">
+      <Filter>소스 파일\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet.cpp">
+      <Filter>소스 파일\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="MainSession.cpp">
+      <Filter>소스 파일\States\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSocket.cpp">
+      <Filter>소스 파일\ServerModule\ClientSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerBase.cpp">
+      <Filter>소스 파일\ServerModule\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransition.cpp">
+      <Filter>소스 파일\ServerModule\FileTransition</Filter>
+    </ClCompile>
+    <ClCompile Include="ListenSocket.cpp">
+      <Filter>소스 파일\ServerModule\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransitionData.cpp">
+      <Filter>소스 파일\ServerModule\FileTransition</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -31,6 +31,8 @@ private:
 	SOCKET newSocket;
 	std::vector<HANDLE*>* threadHandles;
 	std::vector<ClientSocket*>* cSockets;
+	CRITICAL_SECTION handleSection;
+	CRITICAL_SECTION cSocketSection;
 
 	//base function
 	bool InitializeServer();

@@ -20,9 +20,10 @@ void FileTransition::StateSwitch(ClientSocket* cSocket)
 		{
 			case WAIT:
 				RecvFileName(cSocket, data);
+				cSocket->SendProtocolPacket(P_FINNAME);
 				break;
 			case RECVING:
-
+				ReceiveFile(cSocket, data);
 				break;
 			case RECVFIN:
 				break;
@@ -40,22 +41,44 @@ void FileTransition::StateSwitch(ClientSocket* cSocket)
 void FileTransition::RecvFileName(ClientSocket* cSocket, FileTransitionData* data)
 {
 	cSocket->RectStrPacket(data->GetFileNameRef());
-	if (!ValidateFileName(cSocket, *data)) return;
+	if (!cSocket->ValidateProtocol(P_RECVNAME)) 
+	{
+		//error handler
+		return;
+	}
+	if (!ValidateFileName(cSocket, *data)) 
+	{
+		data->ClearFileDirectory();
+		return;
+	}
 	state = RECVING;
 }
 
-bool FileTransition::ValidateFileName(ClientSocket* cSocket, const FileTransitionData& data)
-{
-	if()
+bool FileTransition::ValidateFileName(ClientSocket* cSocket, FileTransitionData& data)
+{	
+	data.SetFileDirectory();
+	if (access(data.GetFileDirectory().c_str(), 6) != 0) return false;
 	return true;
 }
 
 void FileTransition::ReceiveFile(ClientSocket* cSocket, FileTransitionData* data)
 {
+	data->file = fopen(data->GetFileDirectory().c_str(), "wb");
 	while (true) 
 	{
-
+		
 	}
+}
+
+bool FileTransition::GetReadFileSize(ClientSocket* cSocket, FileTransitionData* data)
+{
+	cSocket->RecvIntPacket(data->GetFileSizeRef());
+	return cSocket->ValidateProtocol(P_FSIZE);
+}
+
+bool FileTransition::GetReadFile(ClientSocket* cSocket, FileTransitionData* data)
+{
+	cSocket->RecvCStrPacket()
 }
 
 FileTransition::FileTransition(const FileTransition& trans)
